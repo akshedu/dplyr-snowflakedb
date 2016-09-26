@@ -260,8 +260,8 @@ db_insert_into.SnowflakeDBConnection <- function(con, table, values, ...) {
   table
 
   # write the table out to a local tsv file
-  tmp <- tempfile(fileext = ".tsv")
-  write.table(values, tmp, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+  tmp <- tempfile(fileext = ".csv")
+  write.table(values, tmp, sep = ",", quote = FALSE, row.names = FALSE, col.names = TRUE)
 
   # put the tsv file to the Snowflake table stage
   sql <- sprintf("PUT 'file://%s' @%%\"%s\"", tmp, table)
@@ -270,7 +270,7 @@ db_insert_into.SnowflakeDBConnection <- function(con, table, values, ...) {
   if (rs["status"] != "UPLOADED") print(rs)
 
   # load the file from the table stage
-  sql <- dplyr::build_sql("COPY INTO ", ident(table), " FILE_FORMAT = (FIELD_DELIMITER = '\\t' SKIP_HEADER = 1 NULL_IF = 'NA')")
+  sql <- dplyr::build_sql("COPY INTO ", ident(table), " FILE_FORMAT = (FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF = 'NA')")
   message(sql)
   rs <- dbGetQuery(con, sql)
   if (rs["errors_seen"] != "0") print(rs)
