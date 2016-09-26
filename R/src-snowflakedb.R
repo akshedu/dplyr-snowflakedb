@@ -270,7 +270,7 @@ db_insert_into.SnowflakeDBConnection <- function(con, table, values, ...) {
   if (rs["status"] != "UPLOADED") print(rs)
 
   # load the file from the table stage
-  sql <- dplyr::build_sql("COPY INTO ", ident(table), " FILE_FORMAT = (FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF = 'NA' FIELD_OPTIONALLY_ENCLOSED_BY = '"')")
+  sql <- dplyr::build_sql("COPY INTO ", ident(table), " FILE_FORMAT = (FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF = 'NA' FIELD_OPTIONALLY_ENCLOSED_BY = '\"')")
   message(sql)
   rs <- dbGetQuery(con, sql)
   if (rs["errors_seen"] != "0") print(rs)
