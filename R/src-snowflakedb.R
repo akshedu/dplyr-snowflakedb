@@ -261,7 +261,7 @@ db_insert_into.SnowflakeDBConnection <- function(con, table, values, ...) {
 
   # write the table out to a local tsv file
   tmp <- tempfile(fileext = ".csv")
-  write.table(values, tmp, sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+  write.table(values, tmp, sep = "\t", quote = TRUE, row.names = FALSE, col.names = TRUE)
 
   # put the tsv file to the Snowflake table stage
   sql <- sprintf("PUT 'file://%s' @%%\"%s\"", tmp, table)
